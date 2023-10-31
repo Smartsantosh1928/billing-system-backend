@@ -1,0 +1,19 @@
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "name" : "santosh",
+    "email": "santoshs@anjaconline.org",
+    "password": "123"
+}
+
+###
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "santoshs@anjaconline.org",
+    "password": "123"
+}

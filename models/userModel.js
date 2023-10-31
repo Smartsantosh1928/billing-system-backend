@@ -11,6 +11,7 @@ const userSchema = new Schema({
     refreshToken: String,
     createdAt: Date,
     updatedAt: Date,
+    otp: Number,
 });
 
 const User = mongoose.model('User', userSchema);
