@@ -66,7 +66,10 @@ router.post('/login',(req,res) => {
                 const { name,email,role,isActive } = user;
                 const accessToken = jwt.sign({ name,email,role,isActive }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' });
                 const refreshToken = jwt.sign({ name,email,role,isActive }, process.env.REFRESH_TOKEN_SECRET);
-                res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken });
+                user.refreshToken = refreshToken;
+                user.save().then(() => {
+                    res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken });
+                })
             }
             else return res.json({ success: false, msg: "Invalid Password!" });
         }

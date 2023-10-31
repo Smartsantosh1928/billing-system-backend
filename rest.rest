@@ -17,3 +17,14 @@ Content-Type: application/json
     "email": "santoshs@anjaconline.org",
     "password": "123"
 }
+
+###
+
+POST http://localhost:3000/auth/verifyOTP
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+    "otp": ""
+}
+
