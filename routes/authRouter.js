@@ -39,9 +39,9 @@ router.post('/register',(req,res) => {
     })
 })
 
-router.post('/verifyOTP',verifyToken,(req,res) => {
-    const { otp } = req.body;
-    const { email } = req.user;
+router.post('/verifyOTP',(req,res) => {
+    const { otp, email } = req.body;
+    // const { email } = req.user;
     User.findOne({ email }).then(user => {
         if(!user) return res.json({ success: false, msg: "User not found!" });
         else{
