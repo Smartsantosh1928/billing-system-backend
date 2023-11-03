@@ -28,3 +28,42 @@ Authorization: Bearer
     "otp": ""
 }
 
+###
+
+POST http://localhost:3000/products/add
+Content-Type: application/json
+
+{
+  "name": "coffee",
+  "barcode": "526556",
+  "measurement": "100gms",
+  "isActive": true,
+  "description": "coffee pocket",
+  "image": "img",
+  "color": "brown",
+  "price": 10,
+  "stock": 100,
+  "lowStock": 10
+}
+###
+
+POST http://localhost:3000/products/update
+Content-Type: application/json
+
+{
+  "name": "tea",
+  "newstock": 10
+}
+
+###
+
+POST http://localhost:3000/products/delete
+Content-Type: application/json
+
+{
+  "name": "tea"
+}
+
+###
+
+POST http://localhost:3000/products?page=1

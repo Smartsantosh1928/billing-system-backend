@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const verifyToken = require('./utils');
 const authRouter = require('./routes/authRouter')
+const productRouter = require('./routes/productRouter')
 const swaggerUi = require('swagger-ui-express');
 // const swaggerSpec = require('./config/swagger');
 
@@ -20,6 +21,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRouter);
-
+app.use('/products', productRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./config/swagger_output.json')));
 app.listen(3000, () => console.log('Server is running on port 3000'));
