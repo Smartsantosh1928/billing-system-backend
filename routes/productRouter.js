@@ -65,7 +65,7 @@ router.post('/update',(req,res)=>{
 })
 
 router.post('/delete/:_id',(req,res)=>{
-    const id=req.params._id;
+    const id = req.params._id;
     Product.findOne({id}).then(product=>{
         if(product==null)
             return res.json({success: false , msg: "Product was not in the database"});
@@ -80,9 +80,9 @@ router.post('/delete/:_id',(req,res)=>{
 
 
 router.post('/',(req,res)=>{
-    const perpage=10;
-    const page=parseInt(req.query.page)||1;
-    const skip=(page-1)*perpage;
+    const perpage = parseInt(req.body.perpage)||10;
+    const page = parseInt(req.body.page)||1;
+    const skip = (page-1)*perpage;
     Product.find().sort({name:1}).skip(skip).limit(perpage).then(pro=>{
         if(pro==null)
             return res.json({success: false , msg: "No products in the database"});
@@ -91,7 +91,7 @@ router.post('/',(req,res)=>{
                 res.json({Products:pro,totalPages:Math.ceil(totalItems / perpage),currentPage:page})
             })
         }
-})
+    })
 })
 
 module.exports=router;
