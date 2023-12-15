@@ -3,7 +3,8 @@ const router = express.Router();
 const Product = require('../models/productModel');
 
 router.post('/add',(req,res)=>{
-    const {name,barcode,measurement,isActive,description,image,color,price,stock,lowStock}=req.body;
+    const {name,barcode,measurement,isActive,image,description,color,price,stock,lowStock}=req.body;
+    console.log(req.body);
     const createdAt=new Date();
     const updatedAt=new Date();
     const product=new Product({
