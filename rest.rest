@@ -77,3 +77,7 @@ Content-Type: application/json
 
 ###
 POST http://localhost:3000/products/lowstack
+
+
+###
+POST http://localhost:3000/user/allusers

@@ -8,6 +8,7 @@ const verifyToken = require('./utils');
 const authRouter = require('./routes/authRouter')
 const productRouter = require('./routes/productRouter')
 const fileRouter = require('./routes/fileRouter')
+const userRouter = require('./routes/userRouter')
 const swaggerUi = require('swagger-ui-express');
 
 app.use(cors());
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRouter);
 app.use('/products', productRouter);
+app.use('/user', userRouter);
 app.use('/files', fileRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./config/swagger_output.json')));
 app.listen(3000, () => console.log('Server is running on port 3000'));
