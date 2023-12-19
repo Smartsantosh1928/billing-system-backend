@@ -7,15 +7,15 @@ const { generateOTP, verifyToken } = require('../utils');
 const sendMail = require('../config/mailer');
 
 router.post('/register',(req,res) => {
-    const { name,email,password } = req.body;
+    const { name,email,password,role} = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
     User.findOne({ email }).then(user => {
         if(user) return res.json({ success: false, msg: "User already exists!" });
         else{
-            const role='cashier',isActive=false,otp=generateOTP();
+            const isActive=false,otp=generateOTP();
             const user = { 
                 name,email,password: hashedPassword,
-                isActive: false,role: 'cashier',
+                isActive: false,role,
                 refreshToken:"",createdAt: new Date(),
                 updatedAt: new Date(),otp
             };
@@ -69,7 +69,7 @@ router.post('/login',(req,res) => {
                 const refreshToken = jwt.sign({ name,email,role,isActive }, process.env.REFRESH_TOKEN_SECRET);
                 user.refreshToken = refreshToken;
                 user.save().then(() => {
-                    res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken });
+                    res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken,role});
                 })
             }
             else return res.json({ success: false, msg: "Invalid Password!" });

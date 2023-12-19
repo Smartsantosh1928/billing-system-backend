@@ -94,5 +94,18 @@ router.post('/',(req,res)=>{
         }
     })
 })
+router.post('/lowstack',(req,res)=>{
+    const perpage = parseInt(req.body.perpage)||10;
+    const page = parseInt(req.body.page)||1;
+    const skip = (page-1)*perpage;
+    Product.find({ $expr: {$lt: ["$stock", "$lowStock"]} }).sort({name:1}).skip(skip).limit(perpage).then(pro=>{
+        if(pro==null)
+            return res.json({success: false , msg: "No lowstack products in the database"});
+        else{
+            res.json({Products:pro,totalPages:Math.ceil(pro.length / perpage),currentPage:page})
+        }
+            
+    })
+})
 
 module.exports=router;

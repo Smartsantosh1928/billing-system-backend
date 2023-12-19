@@ -3,9 +3,10 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "name" : "santosh",
-    "email": "santoshs@anjaconline.org",
-    "password": "123"
+    "name" : "santos",
+    "email": "roshandavidr@anjaconline.org",
+    "password": "123",
+    "role":"cashier"
 }
 
 ###
@@ -14,7 +15,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "santoshs@anjaconline.org",
+    "email": "roshandavidr@anjaconline.org",
     "password": "123"
 }
 
@@ -34,16 +35,16 @@ POST http://localhost:3000/products/add
 Content-Type: application/json
 
 {
-  "name": "coffee",
+  "name": "t9",
   "barcode": "526556",
   "measurement": "100gms",
   "isActive": true,
-  "description": "coffee pocket",
+  "description": "tea pocket",
   "image": "img",
   "color": "brown",
   "price": 10,
-  "stock": 100,
-  "lowStock": 10
+  "stock": 10,
+  "lowStock": 20
 }
 ###
 
@@ -66,4 +67,13 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/products?page=1
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "perpage":10,
+  "page":1
+}
+
+###
+POST http://localhost:3000/products/lowstack
