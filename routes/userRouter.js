@@ -7,10 +7,13 @@ router.post('/allusers',(req,res)=>{
         if(users==null)
             return res.json({status:false,msg:"No users in the database"})
         else
-            res.json({User:users,status:true,msg:"Users data sended"})
+        {
+            const record = users.map(user => ({ name: user.name, email: user.email, role: user.role, createdAt: user.createdAt }));
+            res.json({User:record,status:true,msg:"Users data successfully sended"})
+        }
     })
 })
-
+ 
 
 
 module.exports=router;
