@@ -67,7 +67,7 @@ router.post('/update',(req,res)=>{
 
 router.post('/delete/:_id',(req,res)=>{
     const id = req.params._id;
-    Product.findOne({id}).then(product=>{
+    Product.findById({id}).then(product=>{
         if(product==null)
             return res.json({success: false , msg: "Product was not in the database"});
         else{

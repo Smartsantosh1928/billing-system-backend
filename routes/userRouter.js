@@ -14,6 +14,16 @@ router.get('/allusers',(req,res)=>{
     })
 })
  
-
+router.delete('/allusers/:email',(req,res)=>{
+    const email=req.params.email
+    User.findOne({email}).then(user=>{
+        if(user==null)
+            return res.json({status:false,msg:"No user in the database"})
+        else
+            User.findOneAndDelete({email}).then(user=>{
+                res.json({success: true , msg: "User Deleted"});
+        })
+    })
+})
 
 module.exports=router;
