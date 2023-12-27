@@ -3,10 +3,10 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "name" : "santos",
-    "email": "roshandavidr@anjaconline.org",
+    "name" : "santosh",
+    "email": "rishi@anjaconline.org",
     "password": "123",
-    "role":"cashier"
+    "role":"admin"
 }
 
 ###

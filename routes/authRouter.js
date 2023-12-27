@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const mongodb=require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 const { generateOTP, verifyToken } = require('../utils');
@@ -22,6 +23,9 @@ router.post('/register',(req,res) => {
             User.create(user).then(user => {
                 sendMail(user.email,'OTP for Cashier Registration',`Your OTP is ${otp}`)
                 .then(() => {
+                    if(role==='admin')
+                          mongodb.createConnection(`mongodb://localhost/${user.name}`, { useNewUrlParser: true, useUnifiedTopology: true });
+                }).then(()=>{
                     res.json({ success: true, msg: "User Registered Successfully!"});
                 })
                 .catch(err => {
