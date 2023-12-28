@@ -24,7 +24,7 @@ router.post('/register',(req,res) => {
                 sendMail(user.email,'OTP for Cashier Registration',`Your OTP is ${otp}`)
                 .then(() => {
                     if(role==='admin')
-                          mongodb.createConnection(`mongodb://localhost/${user.name}`, { useNewUrlParser: true, useUnifiedTopology: true });
+                        mongodb.createConnection(`mongodb://127.0.0.1:27017/${name}`, { useNewUrlParser: true, useUnifiedTopology: true });
                 }).then(()=>{
                     res.json({ success: true, msg: "User Registered Successfully!"});
                 })

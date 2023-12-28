@@ -65,19 +65,42 @@ router.post('/update',(req,res)=>{
     })
 })
 
-router.post('/delete/:_id',(req,res)=>{
-    const id = req.params._id;
-    Product.findById({id}).then(product=>{
-        if(product==null)
-            return res.json({success: false , msg: "Product was not in the database"});
-        else{
-           Product.findByIdAndDelete(product._id).then(pro=>{
-                res.json({success: true , msg: "Product Deleted"});
-           })
-        }
-    })
+// router.delete('/delete/:_id',(req,res)=>{
+//     const id = req.params._id;
+//     const pro = Product.findById(id).then(product=>{
+//         console.log(product)
+//         if(product==null)
+//             return res.json({success: false , msg: "Product was not in the database"});
+//         else{
+//            Product.findByIdAndDelete(product._id).then(pro=>{
+//                 res.json({success: true , msg: "Product Deleted"});
+//            })
+//         }
+//     })
+// })
 
-})
+
+router.delete('/delete/:_id', (req, res) => {
+    const id = req.params._id;
+    Product.findById(id)
+        .then(product => {
+            if (product === null) {
+                return res.json({ success: false, msg: "Product was not found in the database" });
+            } else {
+                Product.findByIdAndDelete(id)
+                    .then(() => {
+                        res.json({ success: true, msg: "Product Deleted" });
+                    })
+                    .catch(err => {
+                        res.status(500).json({ success: false, msg: "Error deleting product", error: err });
+                    });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ success: false, msg: "Error finding product", error: err });
+        });
+});
+
 
 
 router.post('/',(req,res)=>{
