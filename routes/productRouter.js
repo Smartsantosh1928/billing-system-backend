@@ -127,7 +127,7 @@ router.post('/lowstack',(req,res)=>{
             return res.json({success: false , msg: "No lowstack products in the database"});
         else{
             Product.countDocuments().then(t=>{
-                res.json({Products:pro,totalPages:Math.ceil(t / perpage),currentPage:page,totalItems:t})
+                res.json({Products:pro,totalPages:Math.ceil(t / perpage),currentPage:page,totalItems:pro.length})
             })
         }
             
