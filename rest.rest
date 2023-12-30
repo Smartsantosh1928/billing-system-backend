@@ -83,3 +83,6 @@ DELETE http://localhost:3000/user/allusers/rishikeshk@anjaconline.org
 
 ###
 GET http://localhost:3000/bill/new-bill
+
+###
+POST http://localhost:3000/products/totalusers

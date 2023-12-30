@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Product = require('../models/productModel');
+const User = require('../models/userModel');
 
 router.post('/add',(req,res)=>{
     const {name,barcode,measurement,isActive,image,description,color,price,stock,lowStock}=req.body;
@@ -111,8 +112,8 @@ router.post('/',(req,res)=>{
         if(pro==null)
             return res.json({success: false , msg: "No products in the database"});
         else{
-            Product.countDocuments().then(totalItems=>{
-                res.json({Products:pro,totalPages:Math.ceil(totalItems / perpage),currentPage:page})
+            Product.countDocuments().then(t=>{
+                res.json({Products:pro,totalPages:Math.ceil(t / perpage),currentPage:page,totalItems:t})
             })
         }
     })
@@ -125,9 +126,23 @@ router.post('/lowstack',(req,res)=>{
         if(pro==null)
             return res.json({success: false , msg: "No lowstack products in the database"});
         else{
-            res.json({Products:pro,totalPages:Math.ceil(pro.length / perpage),currentPage:page})
+            Product.countDocuments().then(t=>{
+                res.json({Products:pro,totalPages:Math.ceil(t / perpage),currentPage:page,totalItems:t})
+            })
         }
             
+    })
+})
+
+router.post('/totalusers',(req,res)=>{
+    User.find().then(user=>{
+        if(user===null)
+            return res.status(500).json({success:false,msg:"NO users in the database"})
+        else{
+            User.countDocuments().then(t=>{
+                res.json({success:true,totaluser:t})
+            })
+        }
     })
 })
 
