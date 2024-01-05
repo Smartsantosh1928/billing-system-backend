@@ -1,15 +1,41 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const mongodb=require('mongoose');
+const db=require('../config/db');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const { generateOTP, verifyToken } = require('../utils');
+const Admin = require('../models/adminModel');
+const { generateOTP, verifyToken} = require('../utils');
 const sendMail = require('../config/mailer');
 
-router.post('/register',(req,res) => {
+router.post('/adminregister',async(req,res)=>{
+    const { name,email,password} = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const databaseName = email.replace('@', '_').replace('.', '_');
+    db.useDb('Owner');
+    Admin.findOne({email}).then(user=>{
+        if(!user) return res.json({ success: false, msg: "Admin already exists!" });
+        else{
+            const admin={
+                name,email,password: hashedPassword,
+                databaseName,
+                isActive: true
+            }
+            Admin.create(admin).then(ad=>{
+                res.json({ success: true, msg: "Admin Registered Successfully!"});
+            }).catch(err => {
+                res.json({ success: false, msg: err.message });
+            })
+        }
+    })
+})
+
+
+router.post('/register',async(req,res) => {
     const { name,email,password,role} = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
+    const databaseName = email.replace('@', '_').replace('.', '_');
+    await db.useDb(databaseName);
     User.findOne({ email }).then(user => {
         if(user) return res.json({ success: false, msg: "User already exists!" });
         else{
@@ -22,10 +48,7 @@ router.post('/register',(req,res) => {
             };
             User.create(user).then(user => {
                 sendMail(user.email,'OTP for Cashier Registration',`Your OTP is ${otp}`)
-                .then(() => {
-                    if(role==='admin')
-                        mongodb.createConnection(`mongodb://127.0.0.1:27017/${name}`, { useNewUrlParser: true, useUnifiedTopology: true });
-                }).then(()=>{
+                .then(()=>{
                     res.json({ success: true, msg: "User Registered Successfully!"});
                 })
                 .catch(err => {

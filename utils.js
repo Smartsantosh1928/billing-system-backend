@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const db=require('./config/db');
 
 function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -20,4 +21,9 @@ function generateOTP() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-module.exports = { verifyToken, generateOTP };
+//   async function switchdb(dbname){
+//     await db.useDb(dbname);
+// }
+
+// module.exports = { verifyToken, generateOTP, switchdb };
+module.exports = { verifyToken, generateOTP};
