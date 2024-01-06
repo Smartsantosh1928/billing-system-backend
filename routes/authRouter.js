@@ -1,48 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const db=require('../config/db');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const Admin = require('../models/adminModel');
-const { generateOTP, verifyToken} = require('../utils');
+const productSchema = require('../models/productModel');
+const { generateOTP, verifyToken,connectToDatabase} = require('../utils');
 const sendMail = require('../config/mailer');
 
-router.post('/adminregister',async(req,res)=>{
-    const { name,email,password} = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    const databaseName = email.replace('@', '_').replace('.', '_');
-    db.useDb('Owner');
-    Admin.findOne({email}).then(user=>{
-        if(!user) return res.json({ success: false, msg: "Admin already exists!" });
-        else{
-            const admin={
-                name,email,password: hashedPassword,
-                databaseName,
-                isActive: true
-            }
-            Admin.create(admin).then(ad=>{
-                res.json({ success: true, msg: "Admin Registered Successfully!"});
-            }).catch(err => {
-                res.json({ success: false, msg: err.message });
-            })
-        }
-    })
-})
 
 
 router.post('/register',async(req,res) => {
-    const { name,email,password,role} = req.body;
+    const {name,email,password,role} = req.body;
+    const storename="jancy";
     const hashedPassword = bcrypt.hashSync(password, 10);
     const databaseName = email.replace('@', '_').replace('.', '_');
-    await db.useDb(databaseName);
+    const db=connectToDatabase(databaseName);
+    db.model("Product",productSchema)
     User.findOne({ email }).then(user => {
         if(user) return res.json({ success: false, msg: "User already exists!" });
         else{
             const isActive=false,otp=generateOTP();
             const user = { 
-                name,email,password: hashedPassword,
-                isActive: false,role,
+                name,storename,email,password: hashedPassword,
+                isActive: false,role,databaseName,
                 refreshToken:"",createdAt: new Date(),
                 updatedAt: new Date(),otp
             };
@@ -91,11 +71,12 @@ router.post('/login',(req,res) => {
         else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
         else{
             if(bcrypt.compareSync(password, user.password)){
-                const { name,email,role,isActive } = user;
+                const { name,email,role,databaseName,isActive } = user;
                 const accessToken = jwt.sign({ name,email,role,isActive }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' });
                 const refreshToken = jwt.sign({ name,email,role,isActive }, process.env.REFRESH_TOKEN_SECRET);
                 user.refreshToken = refreshToken;
                 user.save().then(() => {
+                    const db=connectToDatabase(databaseName);
                     res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken,role});
                 })
             }

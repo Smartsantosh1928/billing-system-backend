@@ -86,13 +86,3 @@ GET http://localhost:3000/bill/new-bill
 
 ###
 POST http://localhost:3000/products/totalusers
-
-###
-POST http://localhost:3000/auth/adminregister
-Content-Type: application/json
-
-{
-    "name" : "santosh",
-    "email": "rishikesh@anjaconline.org",
-    "password": "123"
-}

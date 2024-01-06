@@ -4,10 +4,12 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     name: String,
+    storename:String,
     email: String,
     password: String,
     isActive: Boolean,
     role: String,
+    databaseName:String,
     refreshToken: String,
     createdAt: Date,
     updatedAt: Date,

@@ -3,6 +3,7 @@ const router = express.Router();
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
 
+
 router.post('/add',(req,res)=>{
     const {name,barcode,measurement,isActive,image,description,color,price,stock,lowStock}=req.body;
     console.log(req.body);
