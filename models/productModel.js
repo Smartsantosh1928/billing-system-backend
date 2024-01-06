@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const databaseName=require('../routes/authRouter')
+const {connectToDatabase} = require('../utils');
+
+const db=connectToDatabase(databaseName);
 
 const Schema = mongoose.Schema;
 
@@ -17,6 +21,6 @@ const productSchema = new Schema({
     updatedAt: Date,
 });
 
-// const Product=mongoose.model('Product', productSchema);
+const Product=db.model('Product', productSchema);
 
-module.exports=productSchema;
+module.exports=Product;

@@ -6,16 +6,15 @@ const User = require('../models/userModel');
 const productSchema = require('../models/productModel');
 const { generateOTP, verifyToken,connectToDatabase} = require('../utils');
 const sendMail = require('../config/mailer');
-
-
+const databaseName='';
 
 router.post('/register',async(req,res) => {
     const {name,email,password,role} = req.body;
     const storename="jancy";
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const databaseName = email.replace('@', '_').replace('.', '_');
+    databaseName = email.replace('@', '_').replace('.', '_');
     const db=connectToDatabase(databaseName);
-    db.model("Product",productSchema)
+    const Product=db.model("Product",productSchema)
     User.findOne({ email }).then(user => {
         if(user) return res.json({ success: false, msg: "User already exists!" });
         else{
@@ -105,4 +104,4 @@ router.post('/getAccessToken',(req,res) => {
     })
 })
 
-module.exports = router
+module.exports = {router,databaseName}
