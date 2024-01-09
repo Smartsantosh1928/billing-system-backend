@@ -35,7 +35,7 @@ POST http://localhost:3000/products/add
 Content-Type: application/json
 
 {
-  "email":"karmegam1207@gmail.com",
+  "email":"rishikeshk@anjaconline.org",
   "name": "taaa",
   "barcode": "526556",
   "measurement": "100gms",

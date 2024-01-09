@@ -6,9 +6,15 @@ const User = require('../models/userModel');
 const { generateOTP, verifyToken} = require('../utils');
 const sendMail = require('../config/mailer');
 
+const verifyUser=(user)=>{
+    if(!user) return res.json({ success: false, msg: "User not found!" });
+    else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
+}
+
+
 router.post('/register',(req,res) => {
     const {name,email,password,role} = req.body;
-    const storename="jancy";
+    const storename=req.body.storename||"jancy";
     const hashedPassword = bcrypt.hashSync(password, 10);
     const collectionName = email.replace('@', '_').replace('.', '_');
     User.findOne({ email }).then(user => {
@@ -81,9 +87,8 @@ router.post('/login',(req,res) => {
 
 router.post('/verifyUser',verifyToken,(req,res) => {
     const user = req.user;
-    if(!user) return res.json({ success: false, msg: "User not found!" });
-    else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
-    else return res.json({ success: true, msg: "User Verified Successfully!",role: user.role});
+    verifyUser(user)
+    return res.json({ success: true, msg: "User Verified Successfully!",role: user.role});
 })
 
 router.post('/getAccessToken',(req,res) => {
@@ -99,4 +104,4 @@ router.post('/getAccessToken',(req,res) => {
     })
 })
 
-module.exports = router;
+module.exports = {router,verifyUser};

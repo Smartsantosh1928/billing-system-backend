@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 
 function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];
