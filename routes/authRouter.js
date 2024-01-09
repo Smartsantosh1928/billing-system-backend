@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const { generateOTP, verifyToken,connectToDatabase} = require('../utils');
+const { generateOTP, verifyToken} = require('../utils');
 const sendMail = require('../config/mailer');
 
 router.post('/register',(req,res) => {
@@ -71,7 +71,6 @@ router.post('/login',(req,res) => {
                 const refreshToken = jwt.sign({ name,email,role,isActive }, process.env.REFRESH_TOKEN_SECRET);
                 user.refreshToken = refreshToken;
                 user.save().then(() => {
-                    const db=connectToDatabase(databaseName);
                     res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken,role});
                 })
             }
