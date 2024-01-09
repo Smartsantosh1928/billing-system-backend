@@ -3,25 +3,21 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const productSchema = require('../models/productModel');
 const { generateOTP, verifyToken,connectToDatabase} = require('../utils');
 const sendMail = require('../config/mailer');
-const databaseName='';
 
-router.post('/register',async(req,res) => {
+router.post('/register',(req,res) => {
     const {name,email,password,role} = req.body;
     const storename="jancy";
     const hashedPassword = bcrypt.hashSync(password, 10);
-    databaseName = email.replace('@', '_').replace('.', '_');
-    const db=connectToDatabase(databaseName);
-    const Product=db.model("Product",productSchema)
+    const collectionName = email.replace('@', '_').replace('.', '_');
     User.findOne({ email }).then(user => {
         if(user) return res.json({ success: false, msg: "User already exists!" });
         else{
             const isActive=false,otp=generateOTP();
             const user = { 
                 name,storename,email,password: hashedPassword,
-                isActive: false,role,databaseName,
+                isActive: false,role,collectionName,
                 refreshToken:"",createdAt: new Date(),
                 updatedAt: new Date(),otp
             };
@@ -104,4 +100,4 @@ router.post('/getAccessToken',(req,res) => {
     })
 })
 
-module.exports = {router,databaseName}
+module.exports = router;

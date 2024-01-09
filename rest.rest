@@ -23,19 +23,20 @@ Content-Type: application/json
 
 POST http://localhost:3000/auth/verifyOTP
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer
 
 {
     "otp": ""
 }
 
-###
+### 
 
 POST http://localhost:3000/products/add
 Content-Type: application/json
 
 {
-  "name": "t9",
+  "email":"karmegam1207@gmail.com",
+  "name": "taaa",
   "barcode": "526556",
   "measurement": "100gms",
   "isActive": true,

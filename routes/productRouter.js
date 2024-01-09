@@ -1,25 +1,35 @@
 const express = require("express");
 const router = express.Router();
-const {Product} = require('./authRouter');
 const User = require('../models/userModel');
-
+const createProductModel = require('../models/productModel');
 
 router.post('/add',(req,res)=>{
-    const {name,barcode,measurement,isActive,image,description,color,price,stock,lowStock}=req.body;
+    const {email,name,barcode,measurement,isActive,image,description,color,price,stock,lowStock}=req.body;
     console.log(req.body);
     const createdAt=new Date();
     const updatedAt=new Date();
-    const product=new Product({
-        name,barcode,measurement,isActive,description,image,color,price,stock,lowStock,createdAt,updatedAt
-    });
-    Product.findOne({name}).then(pro=>{
-        if(pro)
-            return res.json({success:false,msg:"Product already exists!"});
-        else{
-            Product.create(product).then((product)=>{
-                res.json({ success: true, msg: "Product Added Successfully!"});
-            });
+    User.findOne({email}).then((user)=>{
+        if(!user){
+
+            res.json({success:false,msg:"User not found"})
         }
+            const dbname=user.databaseName;
+  
+            console.log("akfiyasgjhikasdgfui");
+            console.log(dbname);
+            const Product=createProductModel(dbname);
+            const product=new Product({
+                name,barcode,measurement,isActive,description,image,color,price,stock,lowStock,createdAt,updatedAt
+            });
+            Product.findOne({name}).then(pro=>{
+                if(pro)
+                    return res.json({success:false,msg:"Product already exists!"});
+                else{
+                    Product.create(product).then((product)=>{
+                        res.json({ success: true, msg: "Product Added Successfully!"});
+                    });
+                }
+            })
     })
 })
 
