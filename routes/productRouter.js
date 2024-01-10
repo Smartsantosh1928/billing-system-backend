@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require('../models/userModel');
 const createProductModel = require('../models/productModel');
-const {verifyToken} = require('../utils');
-const {verifyUser} = require("../routes/authRouter");
+const {verifyToken,verifyUser} = require('../utils');
 
 const addUserDatabaseToProductModel = async (email) => {
     const user = await User.findOne({ email });
@@ -25,7 +24,7 @@ router.post('/add',verifyToken,async(req,res)=>{
     console.log(req.body);
     const createdAt=new Date();
     const updatedAt=new Date();
-    const Product = await addUserDatabaseToProductModel(email);
+    const Product = await addUserDatabaseToProductModel(user.email);
             const product=new Product({
                 name,barcode,measurement,isActive,description,image,color,price,stock,lowStock,createdAt,updatedAt
             });
@@ -45,7 +44,7 @@ router.post('/stockupdate',verifyToken,async(req,res)=>{
     const user = req.user;
     verifyUser(user)
     const {id,newstock}=req.body;
-    const Product = await addUserDatabaseToProductModel(email);
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.findOne({id}).then(product=>{
         if(product==null)
             return res.json({success:false,msg:"Product was not in the database"});
@@ -67,7 +66,7 @@ router.post('/update',verifyToken,async(req,res)=>{
     const user = req.user;
     verifyUser(user)
     const {id,name,barcode,measurement,isActive,description,image,color,price,stock,lowStock}=req.body;
-    const Product = await addUserDatabaseToProductModel(email);
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.findOne({id}).then(pro=>{
         if(pro==null)
             return res.json({success:false,msg:"Product was not in the database"});
@@ -109,7 +108,7 @@ router.delete('/delete/:_id',verifyToken, async(req, res) => {
     const user = req.user;
     verifyUser(user)
     const id = req.params._id;
-    const Product = await addUserDatabaseToProductModel(email);
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.findById(id)
         .then(product => {
             if (product === null) {
@@ -137,7 +136,7 @@ router.post('/',verifyToken,async(req,res)=>{
     const perpage = parseInt(req.body.perpage)||10;
     const page = parseInt(req.body.page)||1;
     const skip = (page-1)*perpage;
-    const Product = await addUserDatabaseToProductModel(email);
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.find().sort({name:1}).skip(skip).limit(perpage).then(pro=>{
         if(pro==null)
             return res.json({success: false , msg: "No products in the database"});
@@ -154,7 +153,7 @@ router.post('/lowstack',verifyToken,async(req,res)=>{
     const perpage = parseInt(req.body.perpage)||10;
     const page = parseInt(req.body.page)||1;
     const skip = (page-1)*perpage;
-    const Product = await addUserDatabaseToProductModel(email);
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.find({ $expr: {$lt: ["$stock", "$lowStock"]} }).sort({name:1}).skip(skip).limit(perpage).then(pro=>{
         if(pro==null)
             return res.json({success: false , msg: "No lowstack products in the database"});

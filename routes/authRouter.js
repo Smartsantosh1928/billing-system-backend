@@ -3,13 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const { generateOTP, verifyToken} = require('../utils');
+const { generateOTP, verifyToken,verifyUser} = require('../utils');
 const sendMail = require('../config/mailer');
-
-const verifyUser=(user)=>{
-    if(!user) return res.json({ success: false, msg: "User not found!" });
-    else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
-}
 
 
 router.post('/register',(req,res) => {
@@ -104,4 +99,4 @@ router.post('/getAccessToken',(req,res) => {
     })
 })
 
-module.exports = {router,verifyUser};
+module.exports = router;

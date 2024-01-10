@@ -16,8 +16,9 @@ const productSchema = new Schema({
     updatedAt: Date,
 });
 
-const createProductModel = (databaseName) => {
-    const Product = mongoose.model('Product', productSchema, databaseName);
+const createProductModel = (collectionName) => {
+    collectionName=collectionName+"_products"
+    const Product = mongoose.model('Product', productSchema, collectionName);
     return Product;
   };
 

@@ -20,10 +20,16 @@ function generateOTP() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  const verifyUser=(user)=>{
+    if(!user) return res.json({ success: false, msg: "User not found!" });
+    else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
+}
+
+
   // const connectToDatabase = (databaseName) => {
   //   return mongoose.createConnection(`mongodb://127.0.0.1:27017/${databaseName}`, {
   //     useNewUrlParser: true,
   //     useUnifiedTopology: true,
   //   });
   // };
-module.exports = { verifyToken, generateOTP};
+module.exports = { verifyToken, generateOTP,verifyUser};
