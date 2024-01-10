@@ -80,7 +80,7 @@ router.post('/login',(req,res) => {
     })
 })
 
-router.post('/verifyUser',verifyToken,(req,res) => {
+router.get('/verifyUser',verifyToken,(req,res) => {
     const user = req.user;
     verifyUser(user)
     return res.json({ success: true, msg: "User Verified Successfully!",role: user.role});
