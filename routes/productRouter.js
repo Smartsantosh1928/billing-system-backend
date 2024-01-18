@@ -6,14 +6,18 @@ const {verifyToken,verifyUser} = require('../utils');
 
 const addUserDatabaseToProductModel = async (email) => {
     const user = await User.findOne({ email });
-  
     if (!user) {
       return { success: false, msg: 'User not found' };
     }
-  
+    if(user.role!="admin")
+    {
+        const adminuser=await User.findOne({storename:user.storename ,role:"admin"});
+        const Product = createProductModel(adminuser.collectionName);
+        return Product;
+    }
+
     const cname = user.collectionName;
     const Product = createProductModel(cname);
-  
     return Product;
   };
 

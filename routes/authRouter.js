@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const { generateOTP, verifyToken,verifyUser} = require('../utils');
+const { generateOTP, verifyToken, verifyUser} = require('../utils');
 const sendMail = require('../config/mailer');
 
 
@@ -80,7 +80,7 @@ router.post('/login',(req,res) => {
     })
 })
 
-router.get('/verifyUser',verifyToken,(req,res) => {
+router.post('/verifyUser',verifyToken,(req,res) => {
     const user = req.user;
     verifyUser(user)
     return res.json({ success: true, msg: "User Verified Successfully!",role: user.role});
