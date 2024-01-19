@@ -29,19 +29,19 @@ router.post('/add',verifyToken,async(req,res)=>{
     const createdAt=new Date();
     const updatedAt=new Date();
     const Product = await addUserDatabaseToProductModel(user.email);
-            const product=new Product({
-                name,barcode,measurement,isActive,description,image,color,price,stock,lowStock,createdAt,updatedAt
+    const product=new Product({
+        name,barcode,measurement,isActive,description,image,color,price,stock,lowStock,createdAt,updatedAt
+    });
+    Product.findOne({name}).then(pro=>{
+        if(pro)
+            return res.json({success:false,msg:"Product already exists!"});
+        else{
+            Product.create(product).then((product)=>{
+                res.json({ success: true, msg: "Product Added Successfully!"});
             });
-            Product.findOne({name}).then(pro=>{
-                if(pro)
-                    return res.json({success:false,msg:"Product already exists!"});
-                else{
-                    Product.create(product).then((product)=>{
-                        res.json({ success: true, msg: "Product Added Successfully!"});
-                    });
-                }
-            })
+        }
     })
+})
 
 
 router.post('/stockupdate',verifyToken,async(req,res)=>{

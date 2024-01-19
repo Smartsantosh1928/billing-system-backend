@@ -36,9 +36,9 @@ const billSchema = new Schema({
 });
 
 const createBillModel = (collectionName) => {
-    collectionName=collectionName+"_bills"
+    collectionName=collectionName+"_bills";
     const Bill = mongoose.model('bill', billSchema, collectionName);
     return Bill;
   };
 
-module.exports=createProductModel;
+module.exports=createBillModel;
