@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const {verifyToken,verifyUser} = require('../utils');
-const createBillModel = require('../models/productModel');
+const createProductModel = require('../models/productModel');
+const createBillModel = require('../models/billModel');
 const User = require('../models/userModel');
 
 const addUserDatabaseToBillModel = async (email) => {
@@ -15,21 +16,49 @@ const addUserDatabaseToBillModel = async (email) => {
         const Bill = createBillModel(adminuser.collectionName);
         return Bill;
     }
-
     const cname = user.collectionName;
     const Bill = createBillModel(cname);
     return Bill;
   };
 
-router.get('/new-bill',verifyToken,async(req,res)=>{
+const getproductmodel= async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    return { success: false, msg: 'User not found' };
+  }
+  if(user.role!="admin")
+  {
+      const adminuser=await User.findOne({storename:user.storename ,role:"admin"});
+      const Product = createProductModel(adminuser.collectionName);
+      return Product;
+  }
+
+  const cname = user.collectionName;
+  const Product = createProductModel(cname);
+  return Product;
+};
+
+
+router.post('/new-bill',verifyToken,async(req,res)=>{
+  try{
     const user = req.user;
     verifyUser(user);
     const {customerName,items,totalAmount}=req.body;
     const createdAt=new Date();
     const updatedAt=new Date();   
+    const Product=await getproductmodel(user.email);
     const Bill=await addUserDatabaseToBillModel(user.email); 
     const bill=new Bill({customerName,items,totalAmount,createdAt,updatedAt});
-    try{
+    for (const item of items) {
+      const { productName, quantity } = item;
+      const product = await Product.findOne({ name: productName });
+      if (product) {
+        product.stock -= quantity;
+        await product.save();
+      } else {
+        console.warn(`Product not found: ${productName}`);
+      }
+    }
         Bill.create(bill).then((b)=>{
             res.json({ success: true, msg: "Bill Created Successfully!"});
         })

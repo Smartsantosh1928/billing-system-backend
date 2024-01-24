@@ -87,3 +87,19 @@ GET http://localhost:3000/bill/new-bill
 
 ###
 POST http://localhost:3000/products/totalusers
+
+###
+POST  http://localhost:3000/bill/new-bill
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcwNjA3NTQwNiwiZXhwIjoxNzA2MDc5MDA2fQ.53_LfeseQTdVSscUQ1_BAmaxzmhD8gs1HWRnw9Nb4BQ
+{
+  "customerName":"rishi",
+  "items":[
+        {
+          "productName": "frooti",
+          "quantity": 1,
+          "unitPrice": 10
+        }
+      ],
+    "totalAmount":10
+}
