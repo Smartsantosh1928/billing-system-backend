@@ -91,13 +91,14 @@ POST http://localhost:3000/products/totalusers
 ###
 POST  http://localhost:3000/bill/new-bill
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcwNjA3NTQwNiwiZXhwIjoxNzA2MDc5MDA2fQ.53_LfeseQTdVSscUQ1_BAmaxzmhD8gs1HWRnw9Nb4BQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcwNjUwMzI4NCwiZXhwIjoxNzA2NTA2ODg0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.9_sIGxLI97tQsvSt0-wEzXYoJVJmio1GvtoBg9YLBkY
+
 {
   "customerName":"rishi",
   "items":[
         {
           "productName": "frooti",
-          "quantity": 1,
+          "quantity": 10,
           "unitPrice": 10
         }
       ],

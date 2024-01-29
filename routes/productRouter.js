@@ -184,4 +184,17 @@ router.post('/totalusers',verifyToken,(req,res)=>{
     })
 })
 
+router.get('/allproducts',verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
+    const Product = await addUserDatabaseToProductModel(user.email);
+    Product.find().then(pro=>{
+        if(pro===null)
+            return res.status(500).json({success:false,msg:"NO Products in the database"})
+        else{
+                res.json({success:true,products:pro})
+        }
+    })
+})
+
 module.exports=router;
