@@ -24,13 +24,13 @@ const addUserDatabaseToProductModel = async (email) => {
 router.post('/add',verifyToken,async(req,res)=>{
     const user = req.user;
     verifyUser(user)
-    const {name,barcode,measurement,isActive,image,description,color,price,stock,lowStock}=req.body;
+    const {name,barcode,isActive,price,stock,lowStock}=req.body;
     console.log(req.body);
     const createdAt=new Date();
     const updatedAt=new Date();
     const Product = await addUserDatabaseToProductModel(user.email);
     const product=new Product({
-        name,barcode,measurement,isActive,description,image,color,price,stock,lowStock,createdAt,updatedAt
+        name,barcode,isActive,price,stock,lowStock,createdAt,updatedAt
     });
     Product.findOne({name}).then(pro=>{
         if(pro)
@@ -69,7 +69,7 @@ router.post('/stockupdate',verifyToken,async(req,res)=>{
 router.post('/update',verifyToken,async(req,res)=>{
     const user = req.user;
     verifyUser(user)
-    const {id,name,barcode,measurement,isActive,description,image,color,price,stock,lowStock}=req.body;
+    const {id,name,barcode,isActive,price,stock,lowStock}=req.body;
     const Product = await addUserDatabaseToProductModel(user.email);
     Product.findOne({id}).then(pro=>{
         if(pro==null)
@@ -77,11 +77,7 @@ router.post('/update',verifyToken,async(req,res)=>{
         else{
             pro.name=name;
             pro.barcode=barcode;
-            pro.measurement=measurement;
             pro.isActive=isActive;
-            pro.description=description;
-            pro.image=image;
-            pro.color=color;
             pro.price=price;
             pro.stock=stock;
             pro.lowStock=lowStock;
