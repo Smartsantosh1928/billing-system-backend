@@ -112,3 +112,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiL
 GET http://localhost:3000/products/allproducts
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcwNjUwODQ5MCwiZXhwIjoxNzA2NTEyMDkwfQ.Hpl-whdW0j8Iaxnk8VEhzsQbsYINooZa_BV4OnH3VEQ
+
+
+###
+POST http://localhost:3000/products/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcwOTcwNTI3MiwiZXhwIjoxNzA5NzA4ODcyfQ.ieqMP-WHizTQ9bRizu3ZUnckrTkr0NGHlI2GHsIn9wU
+
+{
+  "name": "tea",
+  "barcode":"3124542234",
+  "isActive":true,
+  "price":10,
+  "stock":1000,
+  "lowStock":100
+}

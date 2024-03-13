@@ -69,9 +69,10 @@ router.post('/stockupdate',verifyToken,async(req,res)=>{
 router.post('/update',verifyToken,async(req,res)=>{
     const user = req.user;
     verifyUser(user)
-    const {id,name,barcode,isActive,price,stock,lowStock}=req.body;
+    const {_id,name,barcode,isActive,price,stock,lowStock}=req.body;
+    console.log(id);
     const Product = await addUserDatabaseToProductModel(user.email);
-    Product.findOne({id}).then(pro=>{
+    Product.findOne({_id}).then(pro=>{
         if(pro==null)
             return res.json({success:false,msg:"Product was not in the database"});
         else{
