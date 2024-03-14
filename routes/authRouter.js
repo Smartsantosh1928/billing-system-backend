@@ -6,7 +6,6 @@ const User = require('../models/userModel');
 const productSchema = require('../models/productModel');
 const { generateOTP, verifyToken,connectToDatabase} = require('../utils');
 const sendMail = require('../config/mailer');
-const databaseName='';
 
 router.post('/register',async(req,res) => {
     const {name,email,password,role} = req.body;
@@ -104,4 +103,4 @@ router.post('/getAccessToken',(req,res) => {
     })
 })
 
-module.exports = {router,databaseName}
+module.exports = router

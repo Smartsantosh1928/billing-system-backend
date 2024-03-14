@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const db=require('./config/db');
+const productSchema = require('./models/productModel');
 const mongoose = require('mongoose');
-
+let Product;
 
 function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -24,9 +24,11 @@ function generateOTP() {
   }
 
   const connectToDatabase = (databaseName) => {
-    return mongoose.createConnection(`mongodb://127.0.0.1:27017/${databaseName}`, {
+    const db = mongoose.createConnection(`mongodb://127.0.0.1:27017/${databaseName}`, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    Product=db.model('Product',productSchema);
+    return db;
   };
-module.exports = { verifyToken, generateOTP,connectToDatabase};
+module.exports = { verifyToken, generateOTP,connectToDatabase,Product};
