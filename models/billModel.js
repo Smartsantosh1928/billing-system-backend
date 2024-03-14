@@ -2,10 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const billSchema = new Schema({
-    customerName: {
+      customerName: {
         type: String,
         required: true,
       },
+      city:{
+        type: String,
+        required: true,
+      },
+      number:{
+        type: String,
+        required: true,
+      },
+
       items: [
         {
           productName: {
@@ -17,6 +26,10 @@ const billSchema = new Schema({
             required: true,
           },
           unitPrice: {
+            type: Number,
+            required: true,
+          },
+          totalPrice: {
             type: Number,
             required: true,
           },

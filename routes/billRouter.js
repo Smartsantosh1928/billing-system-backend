@@ -43,12 +43,12 @@ router.post('/new-bill',verifyToken,async(req,res)=>{
   try{
     const user = req.user;
     verifyUser(user);
-    const {customerName,items,totalAmount}=req.body;
+    const {customerName,city,number,items,totalAmount}=req.body;
     const createdAt=new Date();
     const updatedAt=new Date();   
     const Product=await getproductmodel(user.email);
     const Bill=await addUserDatabaseToBillModel(user.email); 
-    const bill=new Bill({customerName,items,totalAmount,createdAt,updatedAt});
+    const bill=new Bill({customerName,city,number,items,totalAmount,createdAt,updatedAt});
     for (const item of items) {
       const { productName, quantity } = item;
       const product = await Product.findOne({ name: productName });

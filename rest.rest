@@ -88,20 +88,24 @@ POST http://localhost:3000/products/totalusers
 ###
 POST  http://localhost:3000/bill/new-bill
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcwNzI4MTM2NiwiZXhwIjoxNzA3Mjg0OTY2fQ.s60_IE7Q4gcu9eRfb7URkqQtVEBEBz0SPITQ4jt3YMo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQwMTI0OSwiZXhwIjoxNzEwNDA0ODQ5fQ.CPV3y47HrobD8dLVDdkWL9dfeCNkxAlWoKtHnpKjNv8
 
 {
-  "customerName":"rishi",
+  "customerName":"roshan",
+  "city":"sivakasi",
+  "number":"9486012814",
   "items":[
         {
           "productName": "frooti",
           "quantity": 10,
-          "unitPrice": 10
+          "unitPrice": 10,
+          "totalPrice": 100
         },
         {
           "productName": "wewq",
           "quantity": 10,
-          "unitPrice": 12340
+          "unitPrice": 12340,
+          "totalPrice": 123400
         }
       ],
     "totalAmount":12350
