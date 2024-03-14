@@ -9,7 +9,7 @@ const userSchema = new Schema({
     password: String,
     isActive: Boolean,
     role: String,
-    databaseName:String,
+    collectionName:String,
     refreshToken: String,
     createdAt: Date,
     updatedAt: Date,

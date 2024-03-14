@@ -3,24 +3,22 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const productSchema = require('../models/productModel');
-const { generateOTP, verifyToken,connectToDatabase} = require('../utils');
+const { generateOTP, verifyToken, verifyUser} = require('../utils');
 const sendMail = require('../config/mailer');
 
-router.post('/register',async(req,res) => {
+
+router.post('/register',(req,res) => {
     const {name,email,password,role} = req.body;
-    const storename="jancy";
+    const storename=req.body.storename||"jancy";
     const hashedPassword = bcrypt.hashSync(password, 10);
-    databaseName = email.replace('@', '_').replace('.', '_');
-    const db=connectToDatabase(databaseName);
-    const Product=db.model("Product",productSchema)
+    const collectionName = email.replace('@', '_').replace('.', '_');
     User.findOne({ email }).then(user => {
         if(user) return res.json({ success: false, msg: "User already exists!" });
         else{
             const isActive=false,otp=generateOTP();
             const user = { 
                 name,storename,email,password: hashedPassword,
-                isActive: false,role,databaseName,
+                isActive: false,role,collectionName,
                 refreshToken:"",createdAt: new Date(),
                 updatedAt: new Date(),otp
             };
@@ -74,7 +72,6 @@ router.post('/login',(req,res) => {
                 const refreshToken = jwt.sign({ name,email,role,isActive }, process.env.REFRESH_TOKEN_SECRET);
                 user.refreshToken = refreshToken;
                 user.save().then(() => {
-                    const db=connectToDatabase(databaseName);
                     res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken,role});
                 })
             }
@@ -85,9 +82,8 @@ router.post('/login',(req,res) => {
 
 router.post('/verifyUser',verifyToken,(req,res) => {
     const user = req.user;
-    if(!user) return res.json({ success: false, msg: "User not found!" });
-    else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
-    else return res.json({ success: true, msg: "User Verified Successfully!",role: user.role});
+    verifyUser(user)
+    return res.json({ success: true, msg: "User Verified Successfully!",role: user.role});
 })
 
 router.post('/getAccessToken',(req,res) => {
@@ -103,4 +99,4 @@ router.post('/getAccessToken',(req,res) => {
     })
 })
 
-module.exports = router
+module.exports = router;

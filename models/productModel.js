@@ -1,15 +1,10 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
     name: String,
     barcode:Number,
-    measurement:String,
     isActive:Boolean,
-    description:String,
-    image:String,
-    color:String,
     price:Number,
     stock:Number,
     lowStock:Number,
@@ -17,6 +12,10 @@ const productSchema = new Schema({
     updatedAt: Date,
 });
 
-// const Product=db.model('Product', productSchema);
+const createProductModel = (collectionName) => {
+    collectionName=collectionName+"_products"
+    const Product = mongoose.model('Product', productSchema, collectionName);
+    return Product;
+  };
 
-module.exports=productSchema;
+module.exports=createProductModel;

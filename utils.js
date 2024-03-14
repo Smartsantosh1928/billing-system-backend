@@ -1,7 +1,4 @@
 const jwt = require('jsonwebtoken');
-const productSchema = require('./models/productModel');
-const mongoose = require('mongoose');
-let Product;
 
 function verifyToken(req, res, next) {
     const authHeader = req.headers['authorization'];
@@ -23,12 +20,16 @@ function generateOTP() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  const connectToDatabase = (databaseName) => {
-    const db = mongoose.createConnection(`mongodb://127.0.0.1:27017/${databaseName}`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    Product=db.model('Product',productSchema);
-    return db;
-  };
-module.exports = { verifyToken, generateOTP,connectToDatabase,Product};
+  const verifyUser=(user)=>{
+    if(!user) return res.json({ success: false, msg: "User not found!" });
+    else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
+}
+
+
+  // const connectToDatabase = (databaseName) => {
+  //   return mongoose.createConnection(`mongodb://127.0.0.1:27017/${databaseName}`, {
+  //     useNewUrlParser: true,
+  //     useUnifiedTopology: true,
+  //   });
+  // };
+module.exports = { verifyToken, generateOTP,verifyUser};

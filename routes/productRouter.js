@@ -1,16 +1,36 @@
 const express = require("express");
 const router = express.Router();
-const {Product} = require('../utils');
 const User = require('../models/userModel');
+const createProductModel = require('../models/productModel');
+const {verifyToken,verifyUser} = require('../utils');
 
+const addUserDatabaseToProductModel = async (email) => {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return { success: false, msg: 'User not found' };
+    }
+    if(user.role!="admin")
+    {
+        const adminuser=await User.findOne({storename:user.storename ,role:"admin"});
+        const Product = createProductModel(adminuser.collectionName);
+        return Product;
+    }
 
-router.post('/add',(req,res)=>{
-    const {name,barcode,measurement,isActive,image,description,color,price,stock,lowStock}=req.body;
+    const cname = user.collectionName;
+    const Product = createProductModel(cname);
+    return Product;
+  };
+
+router.post('/add',verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
+    const {name,barcode,isActive,price,stock,lowStock}=req.body;
     console.log(req.body);
     const createdAt=new Date();
     const updatedAt=new Date();
+    const Product = await addUserDatabaseToProductModel(user.email);
     const product=new Product({
-        name,barcode,measurement,isActive,description,image,color,price,stock,lowStock,createdAt,updatedAt
+        name,barcode,isActive,price,stock,lowStock,createdAt,updatedAt
     });
     Product.findOne({name}).then(pro=>{
         if(pro)
@@ -24,8 +44,11 @@ router.post('/add',(req,res)=>{
 })
 
 
-router.post('/stockupdate',(req,res)=>{
+router.post('/stockupdate',verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
     const {id,newstock}=req.body;
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.findOne({id}).then(product=>{
         if(product==null)
             return res.json({success:false,msg:"Product was not in the database"});
@@ -43,19 +66,19 @@ router.post('/stockupdate',(req,res)=>{
 
 })
 
-router.post('/update',(req,res)=>{
-    const {id,name,barcode,measurement,isActive,description,image,color,price,stock,lowStock}=req.body;
-    Product.findOne({id}).then(pro=>{
+router.post('/update',verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
+    const {_id,name,barcode,isActive,price,stock,lowStock}=req.body;
+    console.log(id);
+    const Product = await addUserDatabaseToProductModel(user.email);
+    Product.findOne({_id}).then(pro=>{
         if(pro==null)
             return res.json({success:false,msg:"Product was not in the database"});
         else{
             pro.name=name;
             pro.barcode=barcode;
-            pro.measurement=measurement;
             pro.isActive=isActive;
-            pro.description=description;
-            pro.image=image;
-            pro.color=color;
             pro.price=price;
             pro.stock=stock;
             pro.lowStock=lowStock;
@@ -82,8 +105,11 @@ router.post('/update',(req,res)=>{
 // })
 
 
-router.delete('/delete/:_id', (req, res) => {
+router.delete('/delete/:_id',verifyToken, async(req, res) => {
+    const user = req.user;
+    verifyUser(user)
     const id = req.params._id;
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.findById(id)
         .then(product => {
             if (product === null) {
@@ -105,10 +131,13 @@ router.delete('/delete/:_id', (req, res) => {
 
 
 
-router.post('/',(req,res)=>{
+router.post('/',verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
     const perpage = parseInt(req.body.perpage)||10;
     const page = parseInt(req.body.page)||1;
     const skip = (page-1)*perpage;
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.find().sort({name:1}).skip(skip).limit(perpage).then(pro=>{
         if(pro==null)
             return res.json({success: false , msg: "No products in the database"});
@@ -119,10 +148,13 @@ router.post('/',(req,res)=>{
         }
     })
 })
-router.post('/lowstack',(req,res)=>{
+router.post('/lowstack',verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
     const perpage = parseInt(req.body.perpage)||10;
     const page = parseInt(req.body.page)||1;
     const skip = (page-1)*perpage;
+    const Product = await addUserDatabaseToProductModel(user.email);
     Product.find({ $expr: {$lt: ["$stock", "$lowStock"]} }).sort({name:1}).skip(skip).limit(perpage).then(pro=>{
         if(pro==null)
             return res.json({success: false , msg: "No lowstack products in the database"});
@@ -135,7 +167,9 @@ router.post('/lowstack',(req,res)=>{
     })
 })
 
-router.post('/totalusers',(req,res)=>{
+router.post('/totalusers',verifyToken,(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
     User.find().then(user=>{
         if(user===null)
             return res.status(500).json({success:false,msg:"NO users in the database"})
@@ -143,6 +177,19 @@ router.post('/totalusers',(req,res)=>{
             User.countDocuments().then(t=>{
                 res.json({success:true,totaluser:t})
             })
+        }
+    })
+})
+
+router.get('/allproducts',verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
+    const Product = await addUserDatabaseToProductModel(user.email);
+    Product.find().then(pro=>{
+        if(pro===null)
+            return res.status(500).json({success:false,msg:"NO Products in the database"})
+        else{
+                res.json({success:true,products:pro})
         }
     })
 })
