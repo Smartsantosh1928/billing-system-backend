@@ -3,7 +3,18 @@ const router = express.Router();
 const {verifyToken,verifyUser} = require('../utils');
 const createProductModel = require('../models/productModel');
 const createBillModel = require('../models/billModel');
+const Sequence = require('../models/sequenceModel');
 const User = require('../models/userModel');
+
+
+async function getNextSequenceValue(sequenceName) {
+  const sequence = await Sequence.findOneAndUpdate(
+    { name: sequenceName },
+    { $inc: { value: 1 } },
+    { new: true, upsert: true }
+  );
+  return sequence.value;
+}
 
 const addUserDatabaseToBillModel = async (email) => {
     const user = await User.findOne({ email });
@@ -43,12 +54,26 @@ router.post('/new-bill',verifyToken,async(req,res)=>{
   try{
     const user = req.user;
     verifyUser(user);
+    const {name} = user;
+    const seq=new Sequence({
+      name
+    });
+    if (user.role === 'admin') {
+      Sequence.findOne({name}).then(data=>{
+        if(!data)
+          Sequence.create(seq).then((data)=>{
+            console.log("sequence created")
+        }); 
+      })
+    }
+    
+    const billno = await getNextSequenceValue(name);
     const {customerName,city,number,items,totalAmount}=req.body;
     const createdAt=new Date();
     const updatedAt=new Date();   
     const Product=await getproductmodel(user.email);
     const Bill=await addUserDatabaseToBillModel(user.email); 
-    const bill=new Bill({customerName,city,number,items,totalAmount,createdAt,updatedAt});
+    const bill=new Bill({billno,customerName,city,number,items,totalAmount,createdAt,updatedAt});
     for (const item of items) {
       const { productName, quantity } = item;
       const product = await Product.findOne({ name: productName });
