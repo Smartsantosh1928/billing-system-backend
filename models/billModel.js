@@ -3,12 +3,22 @@ const Schema = mongoose.Schema;
 
 const billSchema = new Schema({
     billno:{
-      type:number
+      type:Number
     },
     customerName: {
+      customerName: {
         type: String,
         required: true,
       },
+      city:{
+        type: String,
+        required: true,
+      },
+      number:{
+        type: String,
+        required: true,
+      },
+
       items: [
         {
           productName: {
@@ -20,6 +30,10 @@ const billSchema = new Schema({
             required: true,
           },
           unitPrice: {
+            type: Number,
+            required: true,
+          },
+          totalPrice: {
             type: Number,
             required: true,
           },
@@ -36,7 +50,7 @@ const billSchema = new Schema({
       updatedAt: {
         type: Date,
       },
-});
+}});
 
 const createBillModel = (collectionName) => {
     collectionName=collectionName+"_bills";

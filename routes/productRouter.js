@@ -70,7 +70,6 @@ router.post('/update',verifyToken,async(req,res)=>{
     const user = req.user;
     verifyUser(user)
     const {_id,name,barcode,isActive,price,stock,lowStock}=req.body;
-    console.log(id);
     const Product = await addUserDatabaseToProductModel(user.email);
     Product.findOne({_id}).then(pro=>{
         if(pro==null)

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {verifyToken,verifyUser} = require('../utils');
-const { getNextSequenceValue } = require('../models/sequence');
+const { getNextSequenceValue } = require('../models/sequenceModel');
 const createProductModel = require('../models/productModel');
 const createBillModel = require('../models/billModel');
 const User = require('../models/userModel');
@@ -44,12 +44,13 @@ router.post('/new-bill',verifyToken,async(req,res)=>{
   try{
     const user = req.user;
     verifyUser(user);
-    const {customerName,items,totalAmount}=req.body;
+    const billno = await getNextSequenceValue(user.email);
+    const {customerName,city,number,items,totalAmount}=req.body;
     const createdAt=new Date();
     const updatedAt=new Date();   
     const Product=await getproductmodel(user.email);
     const Bill=await addUserDatabaseToBillModel(user.email); 
-    const bill=new Bill({customerName,items,totalAmount,createdAt,updatedAt});
+    const bill=new Bill({billno,customerName,city,number,items,totalAmount,createdAt,updatedAt});
     for (const item of items) {
       const { productName, quantity } = item;
       const product = await Product.findOne({ name: productName });
