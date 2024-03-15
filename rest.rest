@@ -88,27 +88,21 @@ POST http://localhost:3000/products/totalusers
 ###
 POST  http://localhost:3000/bill/new-bill
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiUklTSElLRVNIIEsiLCJlbWFpbCI6ImJlYXN0cmlzaGkyMDA0QGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlzQWN0aXZlIjp0cnVlLCJpYXQiOjE3MTA0MTE1MDYsImV4cCI6MTcxMDQxNTEwNn0.fGZezYZOwAzZO8P0SUZo1pXsIpjV0ixrx8ch6WU60lo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2FudGhvc2giLCJlbWFpbCI6InMuc2FudGhvc2g3MjIyQGdtYWlsLmNvbSIsInJvbGUiOiJjYXNoaWVyIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQ4NTk2MywiZXhwIjoxNzEwNDg5NTYzfQ.HQz53JqFCKWpqkxneXzJma6QkUlJziqwWHJXp7aOQQA
 
 {
-  "customerName":"roshan",
+  "customerName":"santhosh",
   "city":"sivakasi",
   "number":"9486012814",
   "items":[
         {
-          "productName": "frooti",
+          "productName": "apple",
           "quantity": 10,
           "unitPrice": 10,
           "totalPrice": 100
         },
-        {
-          "productName": "wewq",
-          "quantity": 10,
-          "unitPrice": 12340,
-          "totalPrice": 123400
-        }
       ],
-    "totalAmount":12350
+    "totalAmount":1000
 }
 
 

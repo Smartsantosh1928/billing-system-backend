@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const billSchema = new Schema({
-    billno:{
-      type:Number
-    },
-    customerName: {
+      billno: Number,
       customerName: {
         type: String,
         required: true,
@@ -50,7 +47,7 @@ const billSchema = new Schema({
       updatedAt: {
         type: Date,
       },
-}});
+});
 
 const createBillModel = (collectionName) => {
     collectionName=collectionName+"_bills";
