@@ -102,5 +102,23 @@ router.post('/new-bill',verifyToken,async(req,res)=>{
       }
 })
 
+router.post("/allbills",verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
+    const perpage = parseInt(req.body.perpage)||10;
+    const page = parseInt(req.body.page)||1;
+    const skip = (page-1)*perpage;
+    const Bill=await addUserDatabaseToBillModel(user.email); 
+    Bill.find().sort({name:1}).skip(skip).limit(perpage).then(bill=>{
+        if(bill==null)
+            return res.json({success: false , msg: "No products in the database"});
+        else{
+            Bill.countDocuments().then(t=>{
+                res.json({Bills:bill,totalPages:Math.ceil(t / perpage),currentPage:page,totalItems:t})
+            })
+        }
+    })
+})
+
 
 module.exports=router;

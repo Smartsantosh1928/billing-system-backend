@@ -131,3 +131,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiL
   "stock":1000,
   "lowStock":100
 }
+
+###
+POST  http://localhost:3000/bill/allbills
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicHJhYmhhIiwiZW1haWwiOiJrYXJhbnByYWJoYTIyNjY4QGdtYWlsLmNvbSIsInJvbGUiOiJjYXNoaWVyIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQ5MzE2NSwiZXhwIjoxNzEwNDk2NzY1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.5kTEPzQ9PSJMlKJ9Isdn9rmJHcrhaw1-Yl8RQ1BrsSA
+
