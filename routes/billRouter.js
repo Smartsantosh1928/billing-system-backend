@@ -52,20 +52,28 @@ const getproductmodel= async (email) => {
 
 router.post('/new-bill',verifyToken,async(req,res)=>{
   try{
+    let name = "";
     const user = req.user;
     verifyUser(user);
-    const {name} = user;
+    const {email} = user
+    if(user.role != "admin")
+    {
+      const cashier = await User.findOne({ email });
+      const admin=await User.findOne({storename:cashier.storename ,role:"admin"});
+      name = admin.name;
+    }
+    else{
+      name  = user.name;
+    }
     const seq=new Sequence({
       name
     });
-    if (user.role === 'admin') {
       Sequence.findOne({name}).then(data=>{
         if(!data)
           Sequence.create(seq).then((data)=>{
             console.log("sequence created")
         }); 
       })
-    }
     
     const billno = await getNextSequenceValue(name);
     const {customerName,city,number,items,totalAmount}=req.body;

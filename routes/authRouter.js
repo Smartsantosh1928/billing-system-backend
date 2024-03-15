@@ -9,9 +9,20 @@ const sendMail = require('../config/mailer');
 
 router.post('/register',(req,res) => {
     const {name,email,password,role} = req.body;
+    let collectionName = "";
     const storename=req.body.storename||"jancy";
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const collectionName = email.replace('@', '_').replace('.', '_');
+    if (role != "admin")
+    {
+        User.findOne({storename:storename ,role:"admin"}).then(user=>{
+            console.log(user.collectionName);
+            collectionName = user.collectionName
+        })
+    }
+    else
+    {
+        collectionName = email.replace('@', '_').replace('.', '_');
+    }
     User.findOne({ email }).then(user => {
         if(user) return res.json({ success: false, msg: "User already exists!" });
         else{
