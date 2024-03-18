@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const {verifyToken,verifyUser} = require('../utils');
-const { getNextSequenceValue } = require('../models/sequenceModel');
 const createProductModel = require('../models/productModel');
 const createBillModel = require('../models/billModel');
 const Sequence = require('../models/sequenceModel');
@@ -52,20 +51,21 @@ const getproductmodel= async (email) => {
 
 
 router.post('/new-bill',verifyToken,async(req,res)=>{
+  const {user} = req.user
+  verifyUser(user)
   try{
     let name = "";
     const user = req.user;
-    const {email} = user.email;
     verifyUser(user);
+    const {email} = user
     if(user.role != "admin")
     {
-      const user = await User.findOne({email});
-      const adminuser=await User.findOne({storename:user.storename ,role:"admin"});
-      name = adminuser.name
+      const cashier = await User.findOne({ email });
+      const admin=await User.findOne({storename:cashier.storename ,role:"admin"});
+      name = admin.name;
     }
-    else
-    {
-      name = user.name;
+    else{
+      name  = user.name;
     }
     const seq=new Sequence({
       name
@@ -102,6 +102,24 @@ router.post('/new-bill',verifyToken,async(req,res)=>{
         console.error(error);
         res.status(500).json({ success: false, msg: 'Internal server error' });
       }
+})
+
+router.post("/allbills",verifyToken,async(req,res)=>{
+    const user = req.user;
+    verifyUser(user)
+    const perpage = parseInt(req.body.perpage)||10;
+    const page = parseInt(req.body.page)||1;
+    const skip = (page-1)*perpage;
+    const Bill=await addUserDatabaseToBillModel(user.email); 
+    Bill.find().sort({name:1}).skip(skip).limit(perpage).then(bill=>{
+        if(bill==null)
+            return res.json({success: false , msg: "No products in the database"});
+        else{
+            Bill.countDocuments().then(t=>{
+                res.json({Bills:bill,totalPages:Math.ceil(t / perpage),currentPage:page,totalItems:t})
+            })
+        }
+    })
 })
 
 
