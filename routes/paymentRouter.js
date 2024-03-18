@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/create-checkout-session',async(req,res)=>{
     const {price} = req.body; 
-    // const stripe = new Stripe(process.env.Stripe_SERECT)
 
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -26,7 +25,7 @@ router.post('/create-checkout-session',async(req,res)=>{
         success_url: 'http://localhost:3000/auth/signup',
         cancel_url: 'http://localhost:3000/cancel',
       });
-    res.json({id:session.id})
+    res.json({paymentLink:session.url,id:session.id})
 })  
 
 
