@@ -3,7 +3,7 @@ const router = express.Router();
 const {verifyToken,verifyUser} = require('../utils');
 const User = require('../models/userModel');
 
-router.get('/allusers',verifyToken,(req,res)=>{
+router.post('/allusers',verifyToken,(req,res)=>{
     const user = req.user
     verifyUser(user);
     User.find().then(users=>{
