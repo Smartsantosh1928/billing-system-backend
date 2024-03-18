@@ -12,14 +12,14 @@ router.post('/create-checkout-session',async(req,res)=>{
             price_data: {
               currency: 'inr', 
               product_data: {
-                name: 'Subscription',
+                name: 'Your Subscription Plan',
               },
               unit_amount: Math.round(details.price*100),  
             },
             quantity: 1,
           },
         ],
-        mode: 'payment',
+        mode: 'subscription',
         success_url: 'http://localhost:3000/success',
         cancel_url: 'http://localhost:3000/cancel',
       });
