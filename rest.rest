@@ -74,7 +74,9 @@ POST http://localhost:3000/products/lowstack
 
 
 ###
-GET http://localhost:3000/user/allusers
+POST http://localhost:3000/user/allusers
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDc1MTcyMiwiZXhwIjoxNzEwNzU1MzIyfQ.yCldlQ_mdMTM9QOxsFWv7SCTr_Na2QhwLmvQXoN8euI
 
 ###
 DELETE http://localhost:3000/user/allusers/rishikeshk@anjaconline.org
@@ -88,7 +90,7 @@ POST http://localhost:3000/products/totalusers
 ###
 POST  http://localhost:3000/bill/new-bill
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQwMTI0OSwiZXhwIjoxNzEwNDA0ODQ5fQ.CPV3y47HrobD8dLVDdkWL9dfeCNkxAlWoKtHnpKjNv8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicHJhYmhhIiwiZW1haWwiOiJrYXJhbnByYWJoYTIyNjY4QGdtYWlsLmNvbSIsInJvbGUiOiJjYXNoaWVyIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQ5MzE2NSwiZXhwIjoxNzEwNDk2NzY1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.5kTEPzQ9PSJMlKJ9Isdn9rmJHcrhaw1-Yl8RQ1BrsSA
 
 {
   "customerName":"roshan",
@@ -130,4 +132,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiL
   "price":10,
   "stock":1000,
   "lowStock":100
-}
+} 
+
+###
+POST  http://localhost:3000/bill/allbills
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicHJhYmhhIiwiZW1haWwiOiJrYXJhbnByYWJoYTIyNjY4QGdtYWlsLmNvbSIsInJvbGUiOiJjYXNoaWVyIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQ5MzE2NSwiZXhwIjoxNzEwNDk2NzY1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.5kTEPzQ9PSJMlKJ9Isdn9rmJHcrhaw1-Yl8RQ1BrsSA
+

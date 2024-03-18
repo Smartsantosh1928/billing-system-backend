@@ -20,7 +20,7 @@ function generateOTP() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  const verifyUser=(user)=>{
+  const verifyUser=(user,res)=>{
     if(!user) return res.json({ success: false, msg: "User not found!" });
     else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
 }

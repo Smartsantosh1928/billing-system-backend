@@ -24,6 +24,7 @@ const addUserDatabaseToProductModel = async (email) => {
 router.post('/add',verifyToken,async(req,res)=>{
     const user = req.user;
     verifyUser(user)
+    console.log(user);
     const {name,barcode,isActive,price,stock,lowStock}=req.body;
     console.log(req.body);
     const createdAt=new Date();
