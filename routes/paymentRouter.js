@@ -1,10 +1,13 @@
+// import Stripe from 'stripe'
 const express = require("express");
-const stripe = require("stripe")(process.env.Stripe_SERECT);
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
+// const Stripe = require("stripe")
 const router = express.Router();
 
-
 router.post('/create-checkout-session',async(req,res)=>{
-    const {details} = req.body;
+    const {price} = req.body; 
+    // const stripe = new Stripe(process.env.Stripe_SERECT)
+
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: [
@@ -12,15 +15,15 @@ router.post('/create-checkout-session',async(req,res)=>{
             price_data: {
               currency: 'inr', 
               product_data: {
-                name: 'Subscription',
+                name: 'Your Subscription Plan',
               },
-              unit_amount: Math.round(details.price*100),  
+              unit_amount: Math.round(price*100),  
             },
             quantity: 1,
           },
         ],
         mode: 'payment',
-        success_url: 'http://localhost:3000/success',
+        success_url: 'http://localhost:3000/auth/signup',
         cancel_url: 'http://localhost:3000/cancel',
       });
     res.json({id:session.id})

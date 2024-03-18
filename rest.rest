@@ -74,7 +74,9 @@ POST http://localhost:3000/products/lowstack
 
 
 ###
-GET http://localhost:3000/user/allusers
+POST http://localhost:3000/user/allusers
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiLCJlbWFpbCI6InJpc2hpa2VzaGtAYW5qYWNvbmxpbmUub3JnIiwicm9sZSI6ImFkbWluIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDc1MTcyMiwiZXhwIjoxNzEwNzU1MzIyfQ.yCldlQ_mdMTM9QOxsFWv7SCTr_Na2QhwLmvQXoN8euI
 
 ###
 DELETE http://localhost:3000/user/allusers/rishikeshk@anjaconline.org
@@ -124,7 +126,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiL
   "price":10,
   "stock":1000,
   "lowStock":100
-}
+} 
 
 ###
 POST  http://localhost:3000/bill/allbills

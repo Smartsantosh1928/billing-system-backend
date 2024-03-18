@@ -78,12 +78,12 @@ router.post('/login',(req,res) => {
         else if(!user.isActive) return res.json({ success: false, msg: "User not verified!" });
         else{
             if(bcrypt.compareSync(password, user.password)){
-                const { name,email,role,isActive } = user;
+                const { name,email,role,isActive,storename } = user;
                 const accessToken = jwt.sign({ name,email,role,isActive }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3600s' });
                 const refreshToken = jwt.sign({ name,email,role,isActive }, process.env.REFRESH_TOKEN_SECRET);
                 user.refreshToken = refreshToken;
                 user.save().then(() => {
-                    res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken,role});
+                    res.json({ success: true, msg: "User Logged In Successfully!",accessToken,refreshToken,role,storename,email});
                 })
             }
             else return res.json({ success: false, msg: "Invalid Password!" });
