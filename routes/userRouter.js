@@ -4,7 +4,7 @@ const {verifyToken,verifyUser} = require('../utils');
 const User = require('../models/userModel');
 
 router.get('/allusers',verifyToken,(req,res)=>{
-    const {user} = req.user
+    const user = req.user
     verifyUser(user);
     User.find().then(users=>{
         if(users==null)

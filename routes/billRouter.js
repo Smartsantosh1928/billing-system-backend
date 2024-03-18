@@ -49,9 +49,10 @@ const getproductmodel= async (email) => {
   return Product;
 };
 
-
+ 
 router.post('/new-bill',verifyToken,async(req,res)=>{
-  const {user} = req.user
+  const {user} = req
+  console.log(req);
   verifyUser(user)
   try{
     let name = "";

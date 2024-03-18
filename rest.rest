@@ -130,7 +130,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicmlzaGkiL
   "price":10,
   "stock":1000,
   "lowStock":100
-}
+} 
 
 ###
 POST  http://localhost:3000/bill/allbills
