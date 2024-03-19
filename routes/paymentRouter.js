@@ -22,7 +22,7 @@ router.post('/create-checkout-session',async(req,res)=>{
           },
         ],
         mode: 'payment',
-        success_url: 'http://localhost:3000/auth/signup',
+        success_url: 'http://localhost:5173/auth/signup',
         cancel_url: 'http://localhost:3000/cancel',
       });
     res.json({paymentLink:session.url,id:session.id})
