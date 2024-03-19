@@ -7,7 +7,7 @@ const Sequence = require('../models/sequenceModel');
 const User = require('../models/userModel');
 
 
-async function getNextSequenceValue(sequenceName) {
+const NextSequenceValue =async(sequenceName)=> {
   const sequence = await Sequence.findOneAndUpdate(
     { name: sequenceName },
     { $inc: { value: 1 } },
@@ -78,7 +78,7 @@ router.post('/new-bill',verifyToken,async(req,res)=>{
         }); 
       })
     
-    const billno = await getNextSequenceValue(name);
+    const billno = await NextSequenceValue(name);
     const {customerName,city,number,items,totalAmount}=req.body;
     const createdAt=new Date();
     const updatedAt=new Date();   

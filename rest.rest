@@ -93,24 +93,18 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicHJhYmhhIiwiZW1haWwiOiJrYXJhbnByYWJoYTIyNjY4QGdtYWlsLmNvbSIsInJvbGUiOiJjYXNoaWVyIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQ5MzE2NSwiZXhwIjoxNzEwNDk2NzY1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.5kTEPzQ9PSJMlKJ9Isdn9rmJHcrhaw1-Yl8RQ1BrsSA
 
 {
-  "customerName":"roshan",
+  "customerName":"santhosh",
   "city":"sivakasi",
   "number":"9486012814",
   "items":[
         {
-          "productName": "frooti",
+          "productName": "apple",
           "quantity": 10,
           "unitPrice": 10,
           "totalPrice": 100
         },
-        {
-          "productName": "wewq",
-          "quantity": 10,
-          "unitPrice": 12340,
-          "totalPrice": 123400
-        }
       ],
-    "totalAmount":12350
+    "totalAmount":1000
 }
 
 
@@ -139,3 +133,11 @@ POST  http://localhost:3000/bill/allbills
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicHJhYmhhIiwiZW1haWwiOiJrYXJhbnByYWJoYTIyNjY4QGdtYWlsLmNvbSIsInJvbGUiOiJjYXNoaWVyIiwiaXNBY3RpdmUiOnRydWUsImlhdCI6MTcxMDQ5MzE2NSwiZXhwIjoxNzEwNDk2NzY1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAifQ.5kTEPzQ9PSJMlKJ9Isdn9rmJHcrhaw1-Yl8RQ1BrsSA
 
+###
+POST  http://localhost:3000/payment/create-checkout-session
+Content-Type: application/json
+Authorization: Bearer sk_test_51Ou3dNSFqeU6dZzwagG3ykU5aazi3IhVUzYftPX2k8tJr6SAK7BinZquURCDTZnCK7ys7TYXwWaUDCPam6OZ7IR8003qFPVdhI
+
+{
+  "price" : 199
+}
